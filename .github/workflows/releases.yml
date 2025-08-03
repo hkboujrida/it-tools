@@ -41,11 +41,13 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          build-args: |
+            BASE_URL=/tools/
           tags: |
-            corentinth/it-tools:latest
-            corentinth/it-tools:${{ env.RELEASE_VERSION }}
-            ghcr.io/corentinth/it-tools:latest
-            ghcr.io/corentinth/it-tools:${{ env.RELEASE_VERSION}}
+            ${{ github.repository_owner }}/it-tools:latest
+            ${{ github.repository_owner }}/it-tools:${{ env.RELEASE_VERSION }}
+            ghcr.io/${{ github.repository_owner }}/it-tools:latest
+            ghcr.io/${{ github.repository_owner }}/it-tools:${{ env.RELEASE_VERSION}}
 
   github-release:
     runs-on: ubuntu-latest
@@ -68,7 +70,7 @@ jobs:
         run: pnpm i
 
       - name: Build the app
-        run: pnpm build
+        run: BASE_URL=/tools/ pnpm build
 
       - name: Zip the app
         run: zip -r it-tools-${{ env.RELEASE_VERSION }}.zip dist/*
@@ -93,11 +95,11 @@ jobs:
             ## Docker images
 
             - Docker Hub
-              - `corentinth/it-tools:latest`
-              - `corentinth/it-tools:${{ env.RELEASE_VERSION }}`
+              - `${{ github.repository_owner }}/it-tools:latest`
+              - `${{ github.repository_owner }}/it-tools:${{ env.RELEASE_VERSION }}`
             - GitHub Container Registry
-              - `ghcr.io/corentinth/it-tools:latest`
-              - `ghcr.io/corentinth/it-tools:${{ env.RELEASE_VERSION}}`
+              - `ghcr.io/${{ github.repository_owner }}/it-tools:latest`
+              - `ghcr.io/${{ github.repository_owner }}/it-tools:${{ env.RELEASE_VERSION}}`
 
             ## Changelog
 

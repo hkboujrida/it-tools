@@ -44,9 +44,6 @@ jobs:
       - name: Run unit test
         run: pnpm test
 
-      - name: Build the app
-        run: pnpm build
-
   build:
     runs-on: ubuntu-latest
     needs:
@@ -82,6 +79,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          build-args: |
+            BASE_URL=/tools/
           tags: |
-            corentinth/it-tools:nightly
-            ghcr.io/corentinth/it-tools:nightly
+            hkboujrida/it-tools:nightly
+            ghcr.io/hkboujrida/it-tools:nightly
